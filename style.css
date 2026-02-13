@@ -5,7 +5,7 @@
 }
 
 body {
-    font-family: 'Arial', sans-serif;
+    font-family: 'Poppins', sans-serif;
     background: linear-gradient(135deg, #ffeef8 0%, #ffc9e5 100%);
     min-height: 100vh;
     display: flex;
@@ -25,13 +25,17 @@ body {
 }
 
 h1 {
+    font-family: 'Great Vibes', cursive;
     color: #ff1493;
-    font-size: 2.5em;
+    font-size: 3em;
     margin-bottom: 20px;
     text-shadow: 2px 2px 4px rgba(255, 105, 180, 0.2);
+    font-weight: 400;
+    line-height: 1.3;
 }
 
 .sub-message {
+    font-family: 'Poppins', sans-serif;
     color: #ff1493;
     font-size: 1.3em;
     margin-bottom: 15px;
@@ -79,6 +83,7 @@ button {
     cursor: pointer;
     transition: all 0.3s ease;
     font-weight: bold;
+    font-family: 'Poppins', sans-serif;
 }
 
 .yes-btn {
@@ -120,6 +125,7 @@ button {
     display: flex;
     align-items: center;
     justify-content: center;
+    font-family: 'Poppins', sans-serif;
 }
 
 .hover-message.hidden {
@@ -130,9 +136,10 @@ button {
     margin-top: 20px;
     font-size: 1.3em;
     color: #ff1493;
-    font-weight: bold;
+    font-weight: 600;
     animation: fadeIn 0.5s ease;
     line-height: 1.6;
+    font-family: 'Poppins', sans-serif;
 }
 
 .message.hidden {
@@ -166,7 +173,7 @@ button {
 /* Responsive */
 @media (max-width: 600px) {
     h1 {
-        font-size: 1.8em;
+        font-size: 2.2em;
     }
     
     .character img {
@@ -182,5 +189,9 @@ button {
     .hover-message {
         font-size: 0.9em;
         padding: 10px 15px;
+    }
+    
+    .message {
+        font-size: 1.1em;
     }
 }
