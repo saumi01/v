@@ -109,7 +109,7 @@ yesBtn.addEventListener('click', (e) => {
     hideClickMessage();
     
     subMessage.classList.add('hidden');
-    message.textContent = "Yay! I knew you'd say yes!\nThanks for making me the happiest human alive haha";
+    message.textContent = "Yayy! I knew you'd say yes!\nYou make me ridiculously happy hehe";
     message.classList.remove('hidden');
     container.classList.add('celebration');
     
