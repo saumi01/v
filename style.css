@@ -21,22 +21,39 @@ body {
     box-shadow: 0 20px 60px rgba(255, 105, 180, 0.3);
     max-width: 500px;
     width: 90%;
+    position: relative;
 }
 
 h1 {
     color: #ff1493;
     font-size: 2.5em;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
     text-shadow: 2px 2px 4px rgba(255, 105, 180, 0.2);
+}
+
+.sub-message {
+    color: #ff1493;
+    font-size: 1.3em;
+    margin-bottom: 15px;
+    font-weight: 600;
+    min-height: 30px;
+}
+
+.sub-message.hidden {
+    display: none;
 }
 
 .character {
     margin: 30px 0;
+    min-height: 250px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .character img {
-    width: 200px;
-    height: 200px;
+    max-width: 250px;
+    max-height: 250px;
     object-fit: contain;
 }
 
@@ -69,7 +86,7 @@ button {
 }
 
 .yes-btn:hover {
-    transform: scale(1.1);
+    transform: scale(1.05);
     box-shadow: 0 8px 25px rgba(255, 20, 147, 0.6);
 }
 
@@ -86,15 +103,47 @@ button {
 }
 
 .message {
-    margin-top: 30px;
-    font-size: 1.5em;
+    margin-top: 20px;
+    font-size: 1.3em;
     color: #ff1493;
     font-weight: bold;
     animation: fadeIn 0.5s ease;
+    line-height: 1.6;
 }
 
 .message.hidden {
     display: none;
+}
+
+.hover-message {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(255, 20, 147, 0.95);
+    color: white;
+    padding: 20px 30px;
+    border-radius: 15px;
+    font-size: 1.2em;
+    font-weight: bold;
+    z-index: 1000;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    animation: popIn 0.3s ease;
+}
+
+.hover-message.hidden {
+    display: none;
+}
+
+@keyframes popIn {
+    from {
+        transform: translate(-50%, -50%) scale(0.8);
+        opacity: 0;
+    }
+    to {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
 }
 
 @keyframes fadeIn {
@@ -117,6 +166,28 @@ button {
         transform: scale(1);
     }
     50% {
-        transform: scale(1.1);
+        transform: scale(1.05);
+    }
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    h1 {
+        font-size: 1.8em;
+    }
+    
+    .character img {
+        max-width: 200px;
+        max-height: 200px;
+    }
+    
+    button {
+        padding: 12px 30px;
+        font-size: 1em;
+    }
+    
+    .hover-message {
+        font-size: 1em;
+        padding: 15px 20px;
     }
 }
