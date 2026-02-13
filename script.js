@@ -125,8 +125,9 @@ yesBtn.addEventListener('click', (e) => {
         createConfetti();
     }, 100);
     
+    // UPDATE: Background celebration jadi biru langit yang lebih cerah
     setTimeout(() => {
-        document.body.style.background = 'linear-gradient(135deg, #ffeef8 0%, #ff6b9d 50%, #ff1493 100%)';
+        document.body.style.background = 'linear-gradient(135deg, #e3f2fd 0%, #42a5f5 50%, #1976d2 100%)';
     }, 300);
 });
 
