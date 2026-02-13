@@ -219,39 +219,47 @@ function moveToRandomPosition() {
 function createConfetti() {
     const celebrationEmojis = ['🎉', '🎊', '🥳', '✨', '🎈', '🎆', '🎇', '⭐', '🌟', '💫'];
     
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < 60; i++) {
         setTimeout(() => {
             const confetti = document.createElement('div');
+            confetti.className = 'confetti-piece';
             confetti.textContent = celebrationEmojis[Math.floor(Math.random() * celebrationEmojis.length)];
-            confetti.style.position = 'fixed';
-            confetti.style.left = Math.random() * window.innerWidth + 'px';
-            confetti.style.top = '-50px';
-            confetti.style.fontSize = (Math.random() * 25 + 15) + 'px';
-            confetti.style.opacity = '1';
-            confetti.style.pointerEvents = 'none';
-            confetti.style.zIndex = '9999';
             
-            let position = -50;
-            let rotation = 0;
-            let opacity = 1;
-            let drift = (Math.random() - 0.5) * 3;
+            const startLeft = Math.random() * 100;
+            const endLeft = startLeft + (Math.random() - 0.5) * 30;
+            const duration = Math.random() * 2 + 2;
+            const size = Math.random() * 20 + 15;
             
-            const animationInterval = setInterval(() => {
-                position += 5;
-                rotation += 8;
-                opacity -= 0.01;
-                
-                confetti.style.top = position + 'px';
-                confetti.style.left = (parseFloat(confetti.style.left) + drift) + 'px';
-                confetti.style.transform = `rotate(${rotation}deg)`;
-                confetti.style.opacity = opacity;
-                
-                if (position > window.innerHeight || opacity <= 0) {
-                    clearInterval(animationInterval);
-                    confetti.remove();
-                }
-            }, 20);
+            confetti.style.cssText = `
+                position: fixed;
+                left: ${startLeft}vw;
+                top: -50px;
+                font-size: ${size}px;
+                pointer-events: none;
+                z-index: 10000;
+                user-select: none;
+                animation: confettiFall ${duration}s ease-in forwards;
+            `;
             
-        }, i * 60);
+            document.body.appendChild(confetti);
+            
+            setTimeout(() => confetti.remove(), duration * 1000 + 100);
+        }, i * 40);
     }
 }
+
+// Tambahkan CSS animation untuk konfeti
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes confettiFall {
+        0% {
+            transform: translateY(0) rotate(0deg);
+            opacity: 1;
+        }
+        100% {
+            transform: translateY(${window.innerHeight + 100}px) rotate(720deg);
+            opacity: 0;
+        }
+    }
+`;
+document.head.appendChild(style);
