@@ -25,25 +25,25 @@ const stages = [
     },
     {
         subText: "Are you sure?",
-        image: "https://media.tenor.com/9SsLoaeSjN8AAAAC/chiikawa.gif",
-        yesHoverMessage: null,
-        showYesHoverMessage: false
+        image: "https://c.tenor.com/lO87UVbq5FoAAAAC/tenor.gif",
+        yesHoverMessage: "Try pressing No.. just for fun",
+        showYesHoverMessage: true
     },
     {
         subText: "Really?",
-        image: "https://media.tenor.com/8qvZhQC0wW0AAAAC/chikawa.gif",
+        image: "https://media.tenor.com/5CgfDZqRmHsAAAAi/chiikawa.gif",
         yesHoverMessage: "Click No, trust me",
         showYesHoverMessage: true
     },
     {
         subText: "Think again!",
-        image: "https://media.tenor.com/PbZbSJbB2VsAAAAC/chiikawa-sleep-together-chiikawa-sleep.gif",
+        image: "https://c.tenor.com/1rGcK4C_QfcAAAAd/tenor.gif",
         yesHoverMessage: "Click No, trust me",
         showYesHoverMessage: true
     },
     {
         subText: "Pleeeeaaasseeeeee!?",
-        image: "https://media.tenor.com/AwmkSMT7w7IAAAAC/%EC%B9%98%EC%9D%B4%EC%B9%B4%EC%99%80-%EC%9A%B8%EB%B3%B4.gif",
+        image: "https://c.tenor.com/uDugCXK4vI4AAAAd/tenor.gif",
         yesHoverMessage: null,
         showYesHoverMessage: false,
         noBtnRunAway: true
@@ -58,14 +58,17 @@ yesBtn.addEventListener('mouseenter', () => {
 });
 
 yesBtn.addEventListener('mouseleave', () => {
-    hideHoverMessageBox();
+    // Don't hide immediately, let timeout handle it
 });
 
 // Yes button click handler
 yesBtn.addEventListener('click', () => {
+    // Hide hover message if showing
+    hideHoverMessageBox();
+    
     // Show final celebration
     subMessage.classList.add('hidden');
-    message.textContent = "Yay! I knew you'd say yes! 💕\nThanks for making me the happiest human alive haha";
+    message.textContent = "Yay! I knew you'd say yes!\nThanks for making me the happiest human alive haha";
     message.classList.remove('hidden');
     container.classList.add('celebration');
     
@@ -74,10 +77,10 @@ yesBtn.addEventListener('click', () => {
     noBtn.style.display = 'none';
     
     // Change to celebration image
-    characterImg.src = "https://media.tenor.com/2W4jXsiFSusAAAAC/chiikawa-chiikawa-dance.gif";
+    characterImg.src = "https://c.tenor.com/-xy4T2slnJsAAAAd/tenor.gif";
     
-    // Create hearts animation
-    createHearts();
+    // Create confetti animation
+    createConfetti();
     
     // Change background
     setTimeout(() => {
@@ -95,6 +98,9 @@ noBtn.addEventListener('mouseenter', () => {
 // No button click handler
 noBtn.addEventListener('click', (e) => {
     e.preventDefault();
+    
+    // Hide any showing hover message
+    hideHoverMessageBox();
     
     if (stage < stages.length) {
         stage++;
@@ -139,6 +145,7 @@ function showHoverMessageBox(text) {
 
 function hideHoverMessageBox() {
     hoverMessage.classList.add('hidden');
+    clearTimeout(hoverTimeout);
 }
 
 function moveNoButton() {
@@ -177,75 +184,43 @@ function moveToRandomPosition() {
     noBtn.style.transform = `scale(${noBtnSize})`;
 }
 
-function createHearts() {
-    const heartSymbols = ['💕', '💖', '💗', '💓', '💝', '❤️', '🥰', '😍'];
+function createConfetti() {
+    // Party and celebration emojis only
+    const celebrationEmojis = ['🎉', '🎊', '🥳', '✨', '🎈', '🎆', '🎇', '⭐', '🌟', '💫'];
     
-    for (let i = 0; i < 40; i++) {
+    for (let i = 0; i < 50; i++) {
         setTimeout(() => {
-            const heart = document.createElement('div');
-            heart.textContent = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
-            heart.style.position = 'fixed';
-            heart.style.left = Math.random() * window.innerWidth + 'px';
-            heart.style.top = window.innerHeight + 'px';
-            heart.style.fontSize = (Math.random() * 30 + 20) + 'px';
-            heart.style.opacity = '1';
-            heart.style.pointerEvents = 'none';
-            heart.style.zIndex = '9999';
+            const confetti = document.createElement('div');
+            confetti.textContent = celebrationEmojis[Math.floor(Math.random() * celebrationEmojis.length)];
+            confetti.style.position = 'fixed';
+            confetti.style.left = Math.random() * window.innerWidth + 'px';
+            confetti.style.top = '-50px';
+            confetti.style.fontSize = (Math.random() * 25 + 15) + 'px';
+            confetti.style.opacity = '1';
+            confetti.style.pointerEvents = 'none';
+            confetti.style.zIndex = '9999';
             
-            let position = window.innerHeight;
+            let position = -50;
             let rotation = 0;
             let opacity = 1;
             let drift = (Math.random() - 0.5) * 3;
             
             const animationInterval = setInterval(() => {
-                position -= 5;
-                rotation += 5;
-                opacity -= 0.008;
+                position += 5;
+                rotation += 8;
+                opacity -= 0.01;
                 
-                heart.style.top = position + 'px';
-                heart.style.left = (parseFloat(heart.style.left) + drift) + 'px';
-                heart.style.transform = `rotate(${rotation}deg)`;
-                heart.style.opacity = opacity;
+                confetti.style.top = position + 'px';
+                confetti.style.left = (parseFloat(confetti.style.left) + drift) + 'px';
+                confetti.style.transform = `rotate(${rotation}deg)`;
+                confetti.style.opacity = opacity;
                 
-                if (position < -100 || opacity <= 0) {
+                if (position > window.innerHeight || opacity <= 0) {
                     clearInterval(animationInterval);
-                    heart.remove();
+                    confetti.remove();
                 }
             }, 20);
             
-        }, i * 80);
+        }, i * 60);
     }
 }
-
-// Background floating hearts (optional ambient effect)
-function createFloatingHeart() {
-    if (stage >= stages.length) return; // Stop after celebration
-    
-    const heart = document.createElement('div');
-    heart.textContent = '💕';
-    heart.style.position = 'fixed';
-    heart.style.left = Math.random() * 100 + 'vw';
-    heart.style.bottom = '-50px';
-    heart.style.fontSize = Math.random() * 20 + 15 + 'px';
-    heart.style.opacity = Math.random() * 0.3 + 0.2;
-    heart.style.pointerEvents = 'none';
-    heart.style.zIndex = '0';
-    
-    document.body.appendChild(heart);
-    
-    let pos = -50;
-    const riseSpeed = Math.random() * 1.5 + 0.5;
-    
-    const rise = setInterval(() => {
-        pos -= riseSpeed;
-        heart.style.bottom = Math.abs(pos) + 'px';
-        
-        if (Math.abs(pos) > window.innerHeight + 50) {
-            clearInterval(rise);
-            heart.remove();
-        }
-    }, 50);
-}
-
-// Create ambient floating hearts every 3 seconds
-setInterval(createFloatingHeart, 3000);
