@@ -54,18 +54,24 @@ noBtn.addEventListener('click', () => {
 });
 
 function moveNoButton() {
+    // Tambahkan class moving saat pertama kali bergerak
+    noBtn.classList.add('moving');
+    
     const container = document.querySelector('.buttons');
     const containerRect = container.getBoundingClientRect();
     
-    const maxX = containerRect.width - noBtn.offsetWidth;
-    const maxY = containerRect.height - noBtn.offsetHeight;
+    // Area yang lebih besar untuk tombol bergerak
+    const maxX = 200; // Jarak maksimal horizontal dari posisi awal
+    const maxY = 100; // Jarak maksimal vertikal dari posisi awal
     
-    const randomX = Math.random() * maxX;
-    const randomY = Math.random() * maxY;
+    const randomX = (Math.random() - 0.5) * maxX;
+    const randomY = (Math.random() - 0.5) * maxY;
     
-    noBtn.style.left = randomX + 'px';
-    noBtn.style.top = randomY + 'px';
+    noBtn.style.left = `calc(50% + ${randomX}px)`;
+    noBtn.style.top = `${randomY}px`;
+    noBtn.style.transform = `translate(-50%, 0) scale(${noBtnSize})`;
 }
+
 
 function createHearts() {
     for (let i = 0; i < 20; i++) {
