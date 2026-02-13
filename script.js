@@ -13,7 +13,7 @@ let yesBtnSize = 1;
 let noBtnSize = 1;
 let hasMovedToAbsolute = false;
 let hoverTimeout;
-let canShowHoverMessage = true;
+let isMessageShowing = false;
 
 // Stage configurations with fallback URLs
 const stages = [
@@ -21,36 +21,36 @@ const stages = [
         subText: "",
         image: "https://c.tenor.com/lt2zYKuEiNAAAAAd/tenor.gif",
         fallbackImage: "https://media1.tenor.com/m/lt2zYKuEiNAAAAAd/chiikawa.gif",
-        yesHoverMessage: "click No, I won't cry, probably",
-        showYesHoverMessage: true
+        yesClickMessage: "click No, I won't cry, probably",
+        showYesClickMessage: true
     },
     {
         subText: "Are you sure?",
         image: "https://media1.tenor.com/m/lO87UVbq5FoAAAAC/chiikawa.gif",
         fallbackImage: "https://c.tenor.com/lO87UVbq5FoAAAAC/tenor.gif",
-        yesHoverMessage: "click No, I won't cry, probably",
-        showYesHoverMessage: true
+        yesClickMessage: "click No, I won't cry, probably",
+        showYesClickMessage: true
     },
     {
         subText: "Really?",
         image: "https://media1.tenor.com/m/5CgfDZqRmHsAAAAd/chiikawa.gif",
         fallbackImage: "https://media.tenor.com/5CgfDZqRmHsAAAAi/chiikawa.gif",
-        yesHoverMessage: "click No, I won't cry, probably",
-        showYesHoverMessage: true
+        yesClickMessage: "click No, I won't cry, probably",
+        showYesClickMessage: true
     },
     {
         subText: "Think again!",
         image: "https://media1.tenor.com/m/1rGcK4C_QfcAAAAd/chiikawa-sleep.gif",
         fallbackImage: "https://c.tenor.com/1rGcK4C_QfcAAAAd/tenor.gif",
-        yesHoverMessage: "click No, I won't cry, probably",
-        showYesHoverMessage: true
+        yesClickMessage: "click No, I won't cry, probably",
+        showYesClickMessage: true
     },
     {
         subText: "Pleeeeaaasseeeeee!?",
         image: "https://media1.tenor.com/m/uDugCXK4vI4AAAAd/chiikawa-cry.gif",
         fallbackImage: "https://c.tenor.com/uDugCXK4vI4AAAAd/tenor.gif",
-        yesHoverMessage: null,
-        showYesHoverMessage: false,
+        yesClickMessage: null,
+        showYesClickMessage: false,
         noBtnRunAway: true
     }
 ];
@@ -94,26 +94,19 @@ function setCharacterImage(imageUrl, fallbackUrl) {
 // Initialize first image
 setCharacterImage(stages[0].image, stages[0].fallbackImage);
 
-// Yes button hover handler
-yesBtn.addEventListener('mouseenter', () => {
-    if (stage < stages.length && stages[stage].showYesHoverMessage && canShowHoverMessage) {
-        showHoverMessageBox(stages[stage].yesHoverMessage);
-    }
-});
-
-yesBtn.addEventListener('mouseleave', () => {
-    // Don't hide immediately, let timeout handle it
-});
-
-// Yes button click handler - PREVENT IF MESSAGE SHOWING
+// Yes button click handler
 yesBtn.addEventListener('click', (e) => {
-    // Jika hover message sedang tampil, jangan eksekusi klik
-    if (!hoverMessage.classList.contains('hidden')) {
-        e.preventDefault();
-        return;
+    // Stage 0-3: Show message, prevent celebration
+    if (stage < 4) {
+        if (stages[stage].showYesClickMessage) {
+            e.preventDefault();
+            showClickMessage(stages[stage].yesClickMessage);
+            return;
+        }
     }
     
-    hideHoverMessageBox();
+    // Stage 4: Go to celebration
+    hideClickMessage();
     
     subMessage.classList.add('hidden');
     message.textContent = "Yay! I knew you'd say yes!\nThanks for making me the happiest human alive haha";
@@ -148,7 +141,7 @@ noBtn.addEventListener('mouseenter', () => {
 noBtn.addEventListener('click', (e) => {
     e.preventDefault();
     
-    hideHoverMessageBox();
+    hideClickMessage();
     
     if (stage < stages.length) {
         stage++;
@@ -170,23 +163,23 @@ noBtn.addEventListener('click', (e) => {
     }
 });
 
-function showHoverMessageBox(text) {
+function showClickMessage(text) {
+    if (isMessageShowing) return;
+    
     hoverMessage.textContent = text;
     hoverMessage.classList.remove('hidden');
-    canShowHoverMessage = false;
+    isMessageShowing = true;
     
     clearTimeout(hoverTimeout);
     hoverTimeout = setTimeout(() => {
-        hideHoverMessageBox();
-        setTimeout(() => {
-            canShowHoverMessage = true;
-        }, 500);
+        hideClickMessage();
     }, 2000);
 }
 
-function hideHoverMessageBox() {
+function hideClickMessage() {
     hoverMessage.classList.add('hidden');
     clearTimeout(hoverTimeout);
+    isMessageShowing = false;
 }
 
 function moveNoButton() {
