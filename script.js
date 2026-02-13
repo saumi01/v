@@ -21,28 +21,28 @@ const stages = [
         subText: "",
         image: "https://c.tenor.com/lt2zYKuEiNAAAAAd/tenor.gif",
         fallbackImage: "https://media1.tenor.com/m/lt2zYKuEiNAAAAAd/chiikawa.gif",
-        yesHoverMessage: "You can click No, I won't cry, probably",
+        yesHoverMessage: "click No, I won't cry, probably",
         showYesHoverMessage: true
     },
     {
         subText: "Are you sure?",
         image: "https://media1.tenor.com/m/lO87UVbq5FoAAAAC/chiikawa.gif",
         fallbackImage: "https://c.tenor.com/lO87UVbq5FoAAAAC/tenor.gif",
-        yesHoverMessage: "Try pressing No.. just for fun",
+        yesHoverMessage: "click No, I won't cry, probably",
         showYesHoverMessage: true
     },
     {
         subText: "Really?",
         image: "https://media1.tenor.com/m/5CgfDZqRmHsAAAAd/chiikawa.gif",
         fallbackImage: "https://media.tenor.com/5CgfDZqRmHsAAAAi/chiikawa.gif",
-        yesHoverMessage: "Click No, trust me",
+        yesHoverMessage: "click No, I won't cry, probably",
         showYesHoverMessage: true
     },
     {
         subText: "Think again!",
         image: "https://media1.tenor.com/m/1rGcK4C_QfcAAAAd/chiikawa-sleep.gif",
         fallbackImage: "https://c.tenor.com/1rGcK4C_QfcAAAAd/tenor.gif",
-        yesHoverMessage: "Click No, trust me",
+        yesHoverMessage: "click No, I won't cry, probably",
         showYesHoverMessage: true
     },
     {
@@ -105,8 +105,14 @@ yesBtn.addEventListener('mouseleave', () => {
     // Don't hide immediately, let timeout handle it
 });
 
-// Yes button click handler
-yesBtn.addEventListener('click', () => {
+// Yes button click handler - PREVENT IF MESSAGE SHOWING
+yesBtn.addEventListener('click', (e) => {
+    // Jika hover message sedang tampil, jangan eksekusi klik
+    if (!hoverMessage.classList.contains('hidden')) {
+        e.preventDefault();
+        return;
+    }
+    
     hideHoverMessageBox();
     
     subMessage.classList.add('hidden');
@@ -122,7 +128,9 @@ yesBtn.addEventListener('click', () => {
         "https://c.tenor.com/-xy4T2slnJsAAAAd/tenor.gif"
     );
     
-    createConfetti();
+    setTimeout(() => {
+        createConfetti();
+    }, 100);
     
     setTimeout(() => {
         document.body.style.background = 'linear-gradient(135deg, #ffeef8 0%, #ff6b9d 50%, #ff1493 100%)';
@@ -172,7 +180,7 @@ function showHoverMessageBox(text) {
         hideHoverMessageBox();
         setTimeout(() => {
             canShowHoverMessage = true;
-        }, 1000);
+        }, 500);
     }, 2000);
 }
 
