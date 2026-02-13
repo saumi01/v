@@ -47,6 +47,7 @@ h1 {
     margin-top: 30px;
     position: relative;
     min-height: 60px;
+    align-items: center;
 }
 
 button {
@@ -57,6 +58,7 @@ button {
     cursor: pointer;
     transition: all 0.3s ease;
     font-weight: bold;
+    position: relative; /* Tambahkan ini */
 }
 
 .yes-btn {
@@ -74,12 +76,18 @@ button {
     background: linear-gradient(135deg, #e0e0e0 0%, #c0c0c0 100%);
     color: #333;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    position: absolute;
+    /* Hapus position: absolute; */
 }
 
 .no-btn:hover {
     background: linear-gradient(135deg, #d0d0d0 0%, #b0b0b0 100%);
 }
+
+/* Tambahkan class baru untuk saat tombol No bergerak */
+.no-btn.moving {
+    position: absolute;
+}
+
 
 .message {
     margin-top: 30px;
