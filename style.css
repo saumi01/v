@@ -102,6 +102,26 @@ button {
     background: linear-gradient(135deg, #d0d0d0 0%, #b0b0b0 100%);
 }
 
+.hover-message {
+    margin-top: 15px;
+    background: rgba(255, 20, 147, 0.1);
+    border: 2px solid #ff1493;
+    color: #ff1493;
+    padding: 12px 20px;
+    border-radius: 15px;
+    font-size: 1em;
+    font-weight: 600;
+    animation: fadeIn 0.3s ease;
+    min-height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hover-message.hidden {
+    display: none;
+}
+
 .message {
     margin-top: 20px;
     font-size: 1.3em;
@@ -113,37 +133,6 @@ button {
 
 .message.hidden {
     display: none;
-}
-
-.hover-message {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: rgba(255, 20, 147, 0.95);
-    color: white;
-    padding: 20px 30px;
-    border-radius: 15px;
-    font-size: 1.2em;
-    font-weight: bold;
-    z-index: 1000;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    animation: popIn 0.3s ease;
-}
-
-.hover-message.hidden {
-    display: none;
-}
-
-@keyframes popIn {
-    from {
-        transform: translate(-50%, -50%) scale(0.8);
-        opacity: 0;
-    }
-    to {
-        transform: translate(-50%, -50%) scale(1);
-        opacity: 1;
-    }
 }
 
 @keyframes fadeIn {
@@ -187,7 +176,7 @@ button {
     }
     
     .hover-message {
-        font-size: 1em;
-        padding: 15px 20px;
+        font-size: 0.9em;
+        padding: 10px 15px;
     }
 }
