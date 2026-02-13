@@ -19,36 +19,36 @@ let canShowHoverMessage = true;
 const stages = [
     {
         subText: "",
-        image: "https://images.wondershare.com/filmora/article-images/chiikawa-stickers-2.gif",
-        fallbackImage: "https://media1.tenor.com/m/lO87UVbq5FoAAAAC/chiikawa.gif",
+        image: "https://c.tenor.com/lt2zYKuEiNAAAAAd/tenor.gif",
+        fallbackImage: "https://media1.tenor.com/m/lt2zYKuEiNAAAAAd/chiikawa.gif",
         yesHoverMessage: "You can click No, I won't cry, probably",
         showYesHoverMessage: true
     },
     {
         subText: "Are you sure?",
         image: "https://media1.tenor.com/m/lO87UVbq5FoAAAAC/chiikawa.gif",
-        fallbackImage: "https://i.imgur.com/placeholder1.gif",
+        fallbackImage: "https://c.tenor.com/lO87UVbq5FoAAAAC/tenor.gif",
         yesHoverMessage: "Try pressing No.. just for fun",
         showYesHoverMessage: true
     },
     {
         subText: "Really?",
         image: "https://media1.tenor.com/m/5CgfDZqRmHsAAAAd/chiikawa.gif",
-        fallbackImage: "https://i.imgur.com/placeholder2.gif",
+        fallbackImage: "https://media.tenor.com/5CgfDZqRmHsAAAAi/chiikawa.gif",
         yesHoverMessage: "Click No, trust me",
         showYesHoverMessage: true
     },
     {
         subText: "Think again!",
         image: "https://media1.tenor.com/m/1rGcK4C_QfcAAAAd/chiikawa-sleep.gif",
-        fallbackImage: "https://i.imgur.com/placeholder3.gif",
+        fallbackImage: "https://c.tenor.com/1rGcK4C_QfcAAAAd/tenor.gif",
         yesHoverMessage: "Click No, trust me",
         showYesHoverMessage: true
     },
     {
         subText: "Pleeeeaaasseeeeee!?",
         image: "https://media1.tenor.com/m/uDugCXK4vI4AAAAd/chiikawa-cry.gif",
-        fallbackImage: "https://i.imgur.com/placeholder4.gif",
+        fallbackImage: "https://c.tenor.com/uDugCXK4vI4AAAAd/tenor.gif",
         yesHoverMessage: null,
         showYesHoverMessage: false,
         noBtnRunAway: true
@@ -119,7 +119,7 @@ yesBtn.addEventListener('click', () => {
     
     setCharacterImage(
         "https://media1.tenor.com/m/-xy4T2slnJsAAAAd/chiikawa-dance.gif",
-        "https://i.imgur.com/celebration.gif"
+        "https://c.tenor.com/-xy4T2slnJsAAAAd/tenor.gif"
     );
     
     createConfetti();
