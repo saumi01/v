@@ -2,6 +2,7 @@ const yesBtn = document.getElementById('yesBtn');
 const noBtn = document.getElementById('noBtn');
 const message = document.getElementById('message');
 const container = document.querySelector('.container');
+const buttonsDiv = document.querySelector('.buttons');
 
 let noBtnSize = 1;
 let yesBtnSize = 1;
@@ -29,7 +30,14 @@ yesBtn.addEventListener('click', () => {
     createHearts();
 });
 
-noBtn.addEventListener('click', () => {
+noBtn.addEventListener('mouseover', () => {
+    if (noClickCount >= 0) {
+        moveNoButton();
+    }
+});
+
+noBtn.addEventListener('click', (e) => {
+    e.preventDefault();
     noClickCount++;
     
     if (noClickCount < noMessages.length) {
@@ -37,14 +45,12 @@ noBtn.addEventListener('click', () => {
         message.classList.remove('hidden');
         
         // Make No button smaller
-        noBtnSize -= 0.2;
-        noBtn.style.transform = `scale(${noBtnSize})`;
+        noBtnSize -= 0.15;
         
         // Make Yes button bigger
-        yesBtnSize += 0.3;
+        yesBtnSize += 0.25;
         yesBtn.style.transform = `scale(${yesBtnSize})`;
         
-        // Move No button to random position
         moveNoButton();
     } else {
         // No button disappears after too many clicks
@@ -54,24 +60,25 @@ noBtn.addEventListener('click', () => {
 });
 
 function moveNoButton() {
-    // Tambahkan class moving saat pertama kali bergerak
-    noBtn.classList.add('moving');
+    // Ubah ke position absolute hanya saat akan bergerak
+    if (noBtn.style.position !== 'absolute') {
+        noBtn.style.position = 'absolute';
+    }
     
-    const container = document.querySelector('.buttons');
-    const containerRect = container.getBoundingClientRect();
+    const containerRect = buttonsDiv.getBoundingClientRect();
+    const btnRect = noBtn.getBoundingClientRect();
     
-    // Area yang lebih besar untuk tombol bergerak
-    const maxX = 200; // Jarak maksimal horizontal dari posisi awal
-    const maxY = 100; // Jarak maksimal vertikal dari posisi awal
+    // Random position dalam container
+    const maxX = containerRect.width - btnRect.width;
+    const maxY = 150;
     
-    const randomX = (Math.random() - 0.5) * maxX;
-    const randomY = (Math.random() - 0.5) * maxY;
+    const randomX = Math.random() * maxX;
+    const randomY = Math.random() * maxY - 20;
     
-    noBtn.style.left = `calc(50% + ${randomX}px)`;
-    noBtn.style.top = `${randomY}px`;
-    noBtn.style.transform = `translate(-50%, 0) scale(${noBtnSize})`;
+    noBtn.style.left = randomX + 'px';
+    noBtn.style.top = randomY + 'px';
+    noBtn.style.transform = `scale(${noBtnSize})`;
 }
-
 
 function createHearts() {
     for (let i = 0; i < 20; i++) {
@@ -84,6 +91,7 @@ function createHearts() {
             heart.style.fontSize = (Math.random() * 30 + 20) + 'px';
             heart.style.animation = 'floatUp 3s ease-out';
             heart.style.pointerEvents = 'none';
+            heart.style.zIndex = '9999';
             
             document.body.appendChild(heart);
             
