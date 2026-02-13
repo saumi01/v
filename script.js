@@ -15,40 +15,84 @@ let hasMovedToAbsolute = false;
 let hoverTimeout;
 let canShowHoverMessage = true;
 
-// Stage configurations
+// Stage configurations with fallback URLs
 const stages = [
     {
         subText: "",
         image: "https://images.wondershare.com/filmora/article-images/chiikawa-stickers-2.gif",
+        fallbackImage: "https://media1.tenor.com/m/lO87UVbq5FoAAAAC/chiikawa.gif",
         yesHoverMessage: "You can click No, I won't cry, probably",
         showYesHoverMessage: true
     },
     {
         subText: "Are you sure?",
-        image: "https://c.tenor.com/lO87UVbq5FoAAAAC/tenor.gif",
+        image: "https://media1.tenor.com/m/lO87UVbq5FoAAAAC/chiikawa.gif",
+        fallbackImage: "https://i.imgur.com/placeholder1.gif",
         yesHoverMessage: "Try pressing No.. just for fun",
         showYesHoverMessage: true
     },
     {
         subText: "Really?",
-        image: "https://media.tenor.com/5CgfDZqRmHsAAAAi/chiikawa.gif",
+        image: "https://media1.tenor.com/m/5CgfDZqRmHsAAAAd/chiikawa.gif",
+        fallbackImage: "https://i.imgur.com/placeholder2.gif",
         yesHoverMessage: "Click No, trust me",
         showYesHoverMessage: true
     },
     {
         subText: "Think again!",
-        image: "https://c.tenor.com/1rGcK4C_QfcAAAAd/tenor.gif",
+        image: "https://media1.tenor.com/m/1rGcK4C_QfcAAAAd/chiikawa-sleep.gif",
+        fallbackImage: "https://i.imgur.com/placeholder3.gif",
         yesHoverMessage: "Click No, trust me",
         showYesHoverMessage: true
     },
     {
         subText: "Pleeeeaaasseeeeee!?",
-        image: "https://c.tenor.com/uDugCXK4vI4AAAAd/tenor.gif",
+        image: "https://media1.tenor.com/m/uDugCXK4vI4AAAAd/chiikawa-cry.gif",
+        fallbackImage: "https://i.imgur.com/placeholder4.gif",
         yesHoverMessage: null,
         showYesHoverMessage: false,
         noBtnRunAway: true
     }
 ];
+
+// Image loading with error handling
+function loadImage(url, fallbackUrl) {
+    return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.onload = () => resolve(url);
+        img.onerror = () => {
+            if (fallbackUrl) {
+                const fallbackImg = new Image();
+                fallbackImg.onload = () => resolve(fallbackUrl);
+                fallbackImg.onerror = () => reject();
+                fallbackImg.src = fallbackUrl;
+            } else {
+                reject();
+            }
+        };
+        img.src = url;
+    });
+}
+
+// Set image with loading and error handling
+function setCharacterImage(imageUrl, fallbackUrl) {
+    characterImg.style.opacity = '0.5';
+    
+    loadImage(imageUrl, fallbackUrl)
+        .then(loadedUrl => {
+            characterImg.src = loadedUrl;
+            characterImg.onload = () => {
+                characterImg.style.opacity = '1';
+            };
+        })
+        .catch(() => {
+            console.error('Failed to load image');
+            characterImg.style.opacity = '1';
+        });
+}
+
+// Initialize first image
+setCharacterImage(stages[0].image, stages[0].fallbackImage);
 
 // Yes button hover handler
 yesBtn.addEventListener('mouseenter', () => {
@@ -63,32 +107,29 @@ yesBtn.addEventListener('mouseleave', () => {
 
 // Yes button click handler
 yesBtn.addEventListener('click', () => {
-    // Hide hover message if showing
     hideHoverMessageBox();
     
-    // Show final celebration
     subMessage.classList.add('hidden');
     message.textContent = "Yay! I knew you'd say yes!\nThanks for making me the happiest human alive haha";
     message.classList.remove('hidden');
     container.classList.add('celebration');
     
-    // Hide buttons
     yesBtn.style.display = 'none';
     noBtn.style.display = 'none';
     
-    // Change to celebration image
-    characterImg.src = "https://c.tenor.com/-xy4T2slnJsAAAAd/tenor.gif";
+    setCharacterImage(
+        "https://media1.tenor.com/m/-xy4T2slnJsAAAAd/chiikawa-dance.gif",
+        "https://i.imgur.com/celebration.gif"
+    );
     
-    // Create confetti animation
     createConfetti();
     
-    // Change background
     setTimeout(() => {
         document.body.style.background = 'linear-gradient(135deg, #ffeef8 0%, #ff6b9d 50%, #ff1493 100%)';
     }, 300);
 });
 
-// No button hover handler (untuk stage terakhir - run away)
+// No button hover handler
 noBtn.addEventListener('mouseenter', () => {
     if (stage === 4) {
         moveNoButton();
@@ -99,29 +140,23 @@ noBtn.addEventListener('mouseenter', () => {
 noBtn.addEventListener('click', (e) => {
     e.preventDefault();
     
-    // Hide any showing hover message
     hideHoverMessageBox();
     
     if (stage < stages.length) {
         stage++;
         
         if (stage < stages.length) {
-            // Update sub message
             subMessage.textContent = stages[stage].subText;
             subMessage.classList.remove('hidden');
             
-            // Update image
-            characterImg.src = stages[stage].image;
+            setCharacterImage(stages[stage].image, stages[stage].fallbackImage);
             
-            // Make Yes button bigger
             yesBtnSize += 0.3;
             yesBtn.style.transform = `scale(${yesBtnSize})`;
             
-            // Make No button smaller
             noBtnSize -= 0.2;
             if (noBtnSize < 0.4) noBtnSize = 0.4;
             
-            // Move No button
             moveNoButton();
         }
     }
@@ -132,11 +167,9 @@ function showHoverMessageBox(text) {
     hoverMessage.classList.remove('hidden');
     canShowHoverMessage = false;
     
-    // Hide after 2 seconds
     clearTimeout(hoverTimeout);
     hoverTimeout = setTimeout(() => {
         hideHoverMessageBox();
-        // Allow showing again after cooldown
         setTimeout(() => {
             canShowHoverMessage = true;
         }, 1000);
@@ -149,7 +182,6 @@ function hideHoverMessageBox() {
 }
 
 function moveNoButton() {
-    // First time moving - convert to absolute
     if (!hasMovedToAbsolute) {
         const currentRect = noBtn.getBoundingClientRect();
         const buttonsRect = buttonsDiv.getBoundingClientRect();
@@ -185,7 +217,6 @@ function moveToRandomPosition() {
 }
 
 function createConfetti() {
-    // Party and celebration emojis only
     const celebrationEmojis = ['🎉', '🎊', '🥳', '✨', '🎈', '🎆', '🎇', '⭐', '🌟', '💫'];
     
     for (let i = 0; i < 50; i++) {
