@@ -36,7 +36,7 @@ h1 {
 
 .sub-message {
     font-family: 'Poppins', sans-serif;
-    color: #1976d2;
+    color: #ff1493;  /* ✨ PINK - diubah dari #1976d2 */
     font-size: 1.3em;
     margin-bottom: 15px;
     font-weight: 600;
